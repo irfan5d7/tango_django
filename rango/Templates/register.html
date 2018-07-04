@@ -1,0 +1,23 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+{% block title %}
+    Register
+{% endblock %}
+{% block sidebar_block %}
+
+{% endblock %}
+{% block body_block %}
+    <h1>About Page</h1>
+    {%  if registered %}
+        Rango says : <strong>Thankyou for Registering!</strong>
+        <a href="/index/">Return to the homepage</a><br/>
+    {% else %}
+        Rango says :<strong>Register here!</strong>
+        <form id ="user_form" method="post"enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ user_form.as_p }}
+            {{ profile_form.as_p }}
+        <input type="submit" name="submit" value="Register" />
+        </form>
+    {%  endif %}
+{% endblock %}

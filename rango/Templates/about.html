@@ -1,0 +1,24 @@
+
+{% extends 'base-boot.html' %}
+	{% load staticfiles %}
+	{% block title_block %}
+		About
+	{% endblock %}
+    {% block sidebar_block %}
+
+{% endblock %}
+	{% block body_block %}
+        <div>
+	        <h1 class="page-header">About Page</h1>
+             <p> visits:{{ count }}</p>
+        <a href="/index/">Home</a><br />
+		</div>
+		<img src="{% static "images/img.jpg" %}" alt="Picture of Rango" />
+        <br/>
+        <button id="about-btn"> Click Me - I'm Javascript on Speed</button>
+<p>This is a example</p>
+<p>This is another example</p>
+	<hr>
+
+
+{% endblock %}

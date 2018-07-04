@@ -1,0 +1,95 @@
+{#{% extends 'base-boot.html' %}#}
+{#{% load staticfiles %}#}
+{#{% block title_block %}#}
+{#    {{ category.name }}#}
+{#{% endblock %}#}
+{#{% block body_block %}#}
+{#    {%  if category %}#}
+{#        <h1>{{ category.name }}</h1>#}
+{#        {%  if pages %}#}
+{#            <ul>#}
+{#            {%  for page in pages %}#}
+{#                <li><a href="{% url 'rango:goto' %}?page_id={{page.id}}"\>{{ page.title }}</a><span class="tag tag-pill tag-primary">{{page.views}}</span></li>#}
+{#            {%  endfor %}#}
+{#            </ul>#}
+{#         {% else %}#}
+{#            <strong>No pages currently in category</strong>#}
+{#        {%  endif %}#}
+{#        <h3><a href="{%  url 'rango:add_page' category.slug %}">Add Page</a></h3>#}
+{#    {%  else %}#}
+{#        <strong>Specified Category Does not exist.</strong>#}
+{#    {%  endif %}#}
+{#{% endblock %}#}
+
+
+
+{% extends 'base-boot.html' %}
+{% load staticfiles %}
+{% block title%}
+    {{ category.name}}
+{% endblock %}
+{% block body_block %}
+
+    <div>
+        {% if category %}
+            <h1>{{ category.name }}</h1>
+            <div>
+               <p><strong id="like_count">{{ category.likes }}</strong> people like this category
+                {% if user.is_authenticated %}
+                <button id="likes" data-catid="{{category.id}}" class="btn btn-primary" type="b\
+                utton">
+                <span class="glyphicon glyphicon-thumbs-up"></span>
+                Like
+                </button>
+                </p>
+        {% endif %}
+            </div>
+            <div id ='pages'>
+                {%  if pages %}
+                    <ul>
+                        {% for page in pages %}
+                            <li><a href="{% url 'rango:goto' %}?page_id={{page.id}}"\>{{ page.title }}</a><span class="tag tag-pill tag-primary">{{page.views}}</span></li>
+                        {% endfor %}
+                    </ul>
+                {% else %}
+                    <strong>No pages currently in category.</strong>
+                {% endif %}
+        {% else %}
+            The specified category does not exist!
+        {% endif %}
+            </div>
+        <a href="{% url 'rango:add_page' category.slug %}">Add a Page</a>
+    </div>
+    <hr>
+    <div>
+		<form class="form-inline" id="user_form"
+				method="post" action="{% url 'rango:show_category'  category.slug %}">
+			{% csrf_token %}
+			<div class="form-group">
+				<input class="form-control" type="text" size="50"
+					name="query" value="{{ query }}" id="query" />
+			</div>
+			<button class="btn btn-primary" type="submit" name="submit"
+				 value="Search">Search</button>
+			</form>
+			<div>
+			{% if result_list %}
+            <h3>Results</h3>
+            <div class="list-group">
+                {% for result in result_list.webPages.value %}
+                    <div class="list-group">
+                        <h4 class="list-group">
+                            <a href="{{ result.url }}">{{ result.name | safe }}</a>
+                        </h4>
+                        <p class="list-group-item-text">{{ result.snippet | safe }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+{#            {{ result_list }}#}
+        {% endif %}
+			</div>
+
+	</div>
+
+
+{% endblock %}

@@ -1,0 +1,33 @@
+{% extends 'base-boot.html' %}
+{% load staticfiles %}
+{% block title %}
+    Search
+{% endblock %}
+{% block body_block %}
+    <div>
+        <h1>Search With Rango</h1><br/>
+        <form class="'form-inline" id ="user_form" method="post" action="{% url 'rango:search_bing' %}">
+            {% csrf_token %}
+            <div class="input-group">
+                <input class="form-control" type="text" size="60" name="query" value="" id="query"/>
+            </div>
+            <button class="btn btn-primary" type="submit" name="submit" value = 'Search'>Search</button>
+        </form>
+    <div>
+        {% if result_list %}
+            <h3>Results</h3>
+            <div class="list-group">
+                {% for result in result_list.webPages.value %}
+                    <div class="list-group">
+                        <h4 class="list-group">
+                            <a href="{{ result.url }}">{{ result.name | safe }}</a>
+                        </h4>
+                        <p class="list-group-item-text">{{ result.snippet | safe }}</p>
+                    </div>
+                {% endfor %}
+            </div>
+{#            {{ result_list }}#}
+        {% endif %}
+    </div>
+    </div>
+{% endblock %}
